@@ -21,8 +21,14 @@ Bundler.require(*Rails.groups)
 
 module EcommerceApi
   class Application < Rails::Application
-    # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 6.0
+
+    # I18n config
+    config.i18n.default_locale = :'pt-BR'
+    # Initialize configuration defaults for originally generated Rails version.
+    # I18n config
+    config.i18n.load_path += Dir[Rails.root.join('config/locales/**/*.{rb,yml}')]
+    config.i18n.default_locale = :'pt-BR'
     Warning[:deprecated] = false
 
     # Settings in config/environments/* take precedence over those specified here.
