@@ -13,6 +13,8 @@ gem 'puma', '~> 4.1'
 # Auth
 gem 'devise', '~> 4.9.0'
 gem 'devise_token_auth'
+# CORS
+gem 'rack-cors', '~> 1.1.1'
 
 # Gemfile
 gem 'mutex_m'
