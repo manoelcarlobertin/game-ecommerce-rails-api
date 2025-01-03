@@ -20,7 +20,7 @@ gem 'rack-cors', '~> 1.1.1'
 gem 'mutex_m'
 gem 'base64'
 gem 'bigdecimal'
-
+gem 'drb'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 # gem 'jbuilder', '~> 2.7'
 # Use Redis adapter to run Action Cable in production

@@ -72,11 +72,12 @@ GEM
       railties (>= 4.1.0)
       responders
       warden (~> 1.2.3)
-    devise_token_auth (1.1.5)
+    devise_token_auth (1.2.4)
       bcrypt (~> 3.0)
       devise (> 3.5.2, < 5)
-      rails (>= 4.2.0, < 6.2)
+      rails (>= 4.2.0, < 7.3)
     diff-lcs (1.5.1)
+    drb (2.2.1)
     erubi (1.13.1)
     factory_bot (6.5.0)
       activesupport (>= 5.0.0)
@@ -250,6 +251,7 @@ DEPENDENCIES
   byebug
   devise (~> 4.9.0)
   devise_token_auth
+  drb
   factory_bot_rails
   faker
   listen (~> 3.2)

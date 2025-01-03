@@ -1,5 +1,6 @@
 # This file is copied to spec/ when you run 'rails generate rspec:install'
 require 'rspec/rails'
+Rails.application.config.active_support.deprecation = :silence
 
 Dir[Rails.root.join('spec', 'support', '**', '*.rb')].each { |f| require f }
 ENV['RAILS_ENV'] ||= 'test'
