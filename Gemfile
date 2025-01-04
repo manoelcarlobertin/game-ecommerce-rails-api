@@ -16,13 +16,16 @@ gem 'devise_token_auth'
 # CORS
 gem 'rack-cors', '~> 1.1.1'
 
+# Rendering
+# Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
+gem 'jbuilder', '~> 2.10.1'
+
 # Gemfile
 gem 'mutex_m'
 gem 'base64'
 gem 'bigdecimal'
 gem 'drb'
-# Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
-# gem 'jbuilder', '~> 2.7'
+
 # Use Redis adapter to run Action Cable in production
 # gem 'redis', '~> 4.0'
 # Use Active Model has_secure_password
@@ -50,6 +53,7 @@ group :development do
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'
+  gem 'sidekiq'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
