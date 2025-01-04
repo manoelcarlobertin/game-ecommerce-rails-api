@@ -98,6 +98,8 @@ GEM
       activesupport (>= 5.0)
     i18n (1.14.6)
       concurrent-ruby (~> 1.0)
+    jbuilder (2.10.2)
+      activesupport (>= 5.0.0)
     listen (3.9.0)
       rb-fsevent (~> 0.10, >= 0.10.3)
       rb-inotify (~> 0.9, >= 0.9.10)
@@ -254,6 +256,7 @@ DEPENDENCIES
   drb
   factory_bot_rails
   faker
+  jbuilder (~> 2.10.1)
   listen (~> 3.2)
   mutex_m
   puma (~> 4.1)
