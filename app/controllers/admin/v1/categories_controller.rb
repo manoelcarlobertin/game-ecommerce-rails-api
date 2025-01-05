@@ -9,10 +9,7 @@ module Admin::V1
       @category = Category.new
       @category.attributes = category_params
 
-      @category.save!
-      render :show # criar a view *show* do **Jbuilder** para renderizar a categoria
-    rescue
-      render json: { errors: { fields: @category.errors.messages } }, status: :unprocessable_entity
+      save_category!
     end
     # def new
     #   @category = Category.new
@@ -51,6 +48,13 @@ module Admin::V1
 
     def category_params
       params.require(:category).permit(:id, :name)
+    end
+
+    def save_category!
+      @category.save!
+      render :show
+    rescue
+      render_error(fields: @category.errors.messages)
     end
   end
 end
