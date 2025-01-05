@@ -1,5 +1,7 @@
 module Admin::V1
   class CategoriesController < ApiController
+    before_action :load_category, only: [:update, :destroy]
+
     def index
       @categories = Category.all
       render json: @categories.as_json(only: %i(id name))
@@ -38,13 +40,23 @@ module Admin::V1
     # end
     # end
     
-    # def destroy
-    # @category = Category.find(params[:id])
-    # @category.destroy
-    # render json: {}, status: :no_content
-    # end
+  def destroy
+    if @category
+      @category.destroy!
+      render json: {}, status: :no_content
+    else
+      render_error(fields: { id: ["not found"] }, status: :not_found)
+    end
+    rescue ActiveRecord::RecordNotDestroyed => e
+      render_error(fields: @category.errors.messages, status: :unprocessable_entity)
+    end
+
 
     private
+
+    def load_category
+      @category = Category.find_by(id: params[:id])
+    end
 
     def category_params
       params.require(:category).permit(:id, :name)
