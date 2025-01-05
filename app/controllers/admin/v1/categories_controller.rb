@@ -9,16 +9,8 @@ module Admin::V1
       @category = Category.new
       @category.attributes = category_params
 
-     # @category.user = current_user  # if using Devise authentication
-
-      # @category.save
-
-      # if the save is successful, render the created category
-      # else, render an error response with the errors from the model object
-      # The status code will be 422 (Unprocessable Entity) in this case
-      # render json: @category, status: :created
       @category.save!
-      render :show
+      render :show # criar a view *show* do **Jbuilder** para renderizar a categoria
     rescue
       render json: { errors: { fields: @category.errors.messages } }, status: :unprocessable_entity
     end
