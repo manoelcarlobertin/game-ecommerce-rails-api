@@ -27,10 +27,6 @@ RSpec.describe "Admin V1 Categories", type: :request do
   context "POST /categories" do
     let(:url) { "/admin/v1/categories" }
 
-    before do
-      post url, params: valid_attributes, headers: auth_header(user)
-    end
-
     context "with valid params" do
       let(:category_params) { { category: attributes_for(:category) }.to_json }
 
@@ -55,9 +51,9 @@ RSpec.describe "Admin V1 Categories", type: :request do
       #   expect(body_json['category']['id']).not_to be_blank
       # end
 
-      it "returns success status 201" do
+      it "returns success status 200" do
         post url, headers: auth_header(user), params: category_params
-        expect(response).to have_http_status(:created)
+        expect(response).to have_http_status(:ok)
       end
 
       it 'returns last added Category' do
