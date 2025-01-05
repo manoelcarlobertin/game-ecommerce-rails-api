@@ -23,4 +23,51 @@ RSpec.describe "Admin V1 Categories", type: :request do
       expect(body_json).to contain_exactly(*categories.as_json(only: %i(id name)))
     end
   end
+
+  context "POST /categories" do
+    let(:url) { "/admin/v1/categories" }
+
+    before do
+      post url, params: valid_attributes, headers: auth_header(user)
+    end
+
+    context "with valid params" do
+      let(:category_params) { { category: attributes_for(:category) }.to_json }
+
+      it 'adds a new Category' do
+        expect do
+          post url, headers: auth_header(user), params: category_params
+        end.to change(Category, :count).by(1)
+      end
+
+      # it "returns the created Category" do
+      #   post url, headers: auth_header(user), params: category_params
+      #   body_json = JSON.parse(response.body)
+
+      #   expect(body_json).to include("id", "name")
+      #   expect(body_json['category']['name']).to eq(attributes_for(:category)[:name])
+      #   expect(body_json['category']['id']).not_to be_nil
+      #   expect(body_json['category']['id']).to be_a(Integer)
+      #   expect(body_json['category']['id']).to be > 0
+      #   expect(body_json['category']['name']).not_to be_empty
+      #   expect(body_json['category']['id']).not_to be_blank
+      #   expect(body_json['category']['name']).not_to be_nil
+      #   expect(body_json['category']['id']).not_to be_blank
+      # end
+
+      it "returns success status 201" do
+        post url, headers: auth_header(user), params: category_params
+        expect(response).to have_http_status(:created)
+      end
+
+      it 'returns last added Category' do
+        post url, headers: auth_header(user), params: category_params
+        expected_category = Category.last.as_json(only: %i(id name))
+        expect(body_json['category']).to eq expected_category
+      end
+    end
+
+    context "with invalid params" do
+    end
+  end
 end
