@@ -30,16 +30,14 @@ module Admin::V1
     #   render json: @category.as_json(only: %i(id name))
     # end
     
-    # def update
-    # @category = Category.find(params[:id])
-    
-    # if @category.update(category_params)
-    # render json: @category.as_json(only: %i(id name)), status: :ok
-    # else
-    # render json: @category.errors, status: :unprocessable_entity
-    # end
-    # end
-    
+    def update
+      if @category.update(category_params)
+        render json: @category.as_json(only: %i(id name)), status: :ok
+      else
+        render json: { errors: category.errors.full_messages }, status: :unprocessable_entity
+      end
+    end
+
   def destroy
     if @category
       @category.destroy!

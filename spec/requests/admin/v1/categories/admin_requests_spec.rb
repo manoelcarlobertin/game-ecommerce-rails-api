@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe "Admin V1 Categories", type: :request do
+RSpec.describe "Admin V1 Categories as :admin", type: :request do
   let(:user) { create(:user) }
 
   context "GET /categories" do
@@ -9,9 +9,9 @@ RSpec.describe "Admin V1 Categories", type: :request do
 
     before do
       get url, headers: auth_header(user)
-      puts response.status # Para verificar o status da resposta
-      puts response.body   # Para verificar a resposta
-      puts categories.inspect # Para verificar as categorias criadas
+      # puts response.status # Para verificar o status da resposta
+      # puts response.body   # Para verificar a resposta
+      # puts categories.inspect # Para verificar as categorias criadas
     end
 
     it "returns success status 200" do
@@ -74,7 +74,65 @@ RSpec.describe "Admin V1 Categories", type: :request do
   # context "PATCH /categories/:id" do
   #   let!(:category) { create(:category) }
   #   let(:url) { "/admin/v1/categories/#{category.id}" }
+  #   let(:valid_attributes) { { name: "Updated Name", description: "Updated Description" } }
+  #   let(:invalid_attributes) { { name: "", description: "Updated Description" } }
+
+  #   describe "with valid parameters" do
+  #     it "updates the category attributes in the database" do
+  #       patch url,
+  #           headers: auth_header(user).merge({ "Content-Type" => "application/json" }),
+  #           params: valid_attributes.to_json
+
+  #       category.reload
+  #       expect(category.name).to eq(valid_attributes[:name])
+  #       expect(category.id).to eq(valid_attributes[:description])
+  #     end
+
+  #     it "returns status code 200" do
+  #         patch url,
+  #           headers: auth_header(user).merge({ "Content-Type" => "application/json" }),
+  #           params: valid_attributes.to_json
+
+  #       expect(response).to have_http_status(:ok)
+  #     end
+
+  #     it "returns the updated category in the response body" do
+  #       patch url,
+  #           headers: auth_header(user).merge({ "Content-Type" => "application/json" }),
+  #           params: valid_attributes.to_json
+
+  #       expect(response.body).to include(valid_attributes[:name])
+  #       expect(response.body).to include(valid_attributes[:description])
+  #     end
+
+  #     it "does not update the category in the database" do
+  #       original_name = category.name
+
+  #       patch url,
+  #           headers: auth_header(user).merge({ "Content-Type" => "application/json" }),
+  #           params: valid_attributes.to_json
+
+  #       category.reload
+  #       expect(category.name).to eq(original_name)
+  #     end
+
+  #     it "returns status code 422 (Unprocessable Entity)" do
+  #       patch url,
+  #           headers: auth_header(user).merge({ "Content-Type" => "application/json" }),
+  #           params: valid_attributes.to_json
+
+  #       expect(response).to have_http_status(:unprocessable_entity)
+  #     end
+
+  #     it "returns error messages in the response body" do
+  #       patch url, headers: auth_header(user), params: invalid_attributes
+
+  #       expect(response.body).to include("can't be blank")
+  #     end
+  #   end
   # end
+
+  
 
   context "DELETE /categories/:id" do
     let!(:category) { create(:category) }
