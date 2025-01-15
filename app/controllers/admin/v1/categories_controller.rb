@@ -1,10 +1,10 @@
 module Admin::V1
   class CategoriesController < ApiController
-    before_action :load_category, only: [:update, :destroy]
+    before_action :load_category, only: [:show, :update, :destroy]
 
-    def index
-      @categories = Category.all
-      render json: @categories.as_json(only: %i(id name))
+    def index # instanciar o service
+      @loading_service = Admin::ModelLoadingService.new(Category.all, searchable_params)
+      @loading_service.call #  e chamar o call
     end
 
     def create
@@ -13,6 +13,9 @@ module Admin::V1
 
       save_category!
     end
+
+    def show; end
+
     # def new
     #   @category = Category.new
     # end
@@ -29,10 +32,10 @@ module Admin::V1
     #   @category = Category.find(params[:id])
     #   render json: @category.as_json(only: %i(id name))
     # end
-    
+
     def update
       if @category.update(category_params)
-        render json: @category.as_json(only: %i(id name)), status: :ok
+        render json: @category.as_json(only: %i[id name]), status: :ok
       else
         render json: { errors: category.errors.full_messages }, status: :unprocessable_entity
       end
@@ -54,6 +57,10 @@ module Admin::V1
 
     def load_category
       @category = Category.find_by(id: params[:id])
+    end
+
+    def searchable_params
+      params.permit({ search: :name }, { order: {} }, :page, :length)
     end
 
     def category_params

@@ -1,4 +1,6 @@
 class Game < ApplicationRecord
+  # include LikeSearchable
+  has_many :licenses, dependent: :destroy
   belongs_to :system_requirement
   has_one :product, as: :productable
 
@@ -8,3 +10,5 @@ class Game < ApplicationRecord
 
   enum mode: { pvp: 1, pve: 2, both: 3 }
 end
+
+

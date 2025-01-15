@@ -19,6 +19,8 @@ gem 'rack-cors', '~> 1.1.1'
 # Rendering
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 2.10.1'
+# ter mais controle sobre atributos e assiciações a serem incluídas
+gem 'active_model_serializers'
 
 # Gemfile
 gem 'mutex_m'

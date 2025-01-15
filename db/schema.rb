@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2025_01_04_000706) do
+ActiveRecord::Schema.define(version: 2025_01_15_222759) do
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -58,6 +58,16 @@ ActiveRecord::Schema.define(version: 2025_01_04_000706) do
     t.index ["system_requirement_id"], name: "index_games_on_system_requirement_id"
   end
 
+  create_table "licenses", force: :cascade do |t|
+    t.string "key"
+    t.integer "platform"
+    t.integer "status"
+    t.integer "game_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["game_id"], name: "index_licenses_on_game_id"
+  end
+
   create_table "product_categories", force: :cascade do |t|
     t.integer "product_id", null: false
     t.integer "category_id", null: false
@@ -75,6 +85,8 @@ ActiveRecord::Schema.define(version: 2025_01_04_000706) do
     t.integer "productable_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "status"
+    t.boolean "featured", default: false
     t.index ["productable_type", "productable_id"], name: "index_products_on_productable_type_and_productable_id"
   end
 
@@ -102,21 +114,31 @@ ActiveRecord::Schema.define(version: 2025_01_04_000706) do
     t.datetime "confirmation_sent_at"
     t.string "unconfirmed_email"
     t.string "name"
-    t.string "nickname"
-    t.string "image"
     t.string "email"
+    t.integer "profile", default: 1
     t.text "tokens"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.integer "profile"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
     t.index ["uid", "provider"], name: "index_users_on_uid_and_provider", unique: true
   end
 
+  create_table "wish_items", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.integer "product_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["product_id"], name: "index_wish_items_on_product_id"
+    t.index ["user_id"], name: "index_wish_items_on_user_id"
+  end
+
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "games", "system_requirements"
+  add_foreign_key "licenses", "games"
   add_foreign_key "product_categories", "categories"
   add_foreign_key "product_categories", "products"
+  add_foreign_key "wish_items", "products"
+  add_foreign_key "wish_items", "users"
 end
