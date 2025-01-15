@@ -11,7 +11,7 @@ Rails.application.routes.draw do
   namespace :admin, defaults: { format: :json } do
     namespace :v1 do
       get "home" => "home#index"
-      resources :categories
+      resources :categories, only: [:index, :show, :create, :update, :destroy]
       resources :coupons
       resources :games, only: [], shallow: true do
         resources :licenses
