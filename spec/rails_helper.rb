@@ -3,11 +3,6 @@ require 'rspec/rails'
 ENV['RAILS_ENV'] ||= 'test'
 Rails.application.config.active_support.deprecation = :silence
 
-require File.expand_path('../config/environment', __dir__)
-# Prevent database truncation if the environment is production
-abort("The Rails environment is running in production mode!") if Rails.env.production?
-require 'rspec/rails'
-
 Dir[Rails.root.join('spec', 'support', '**', '*.rb')].each { |f| require f }
 Dir[Rails.root.join('spec', 'shared_examples', '**', '*.rb')].each { |f| require f }
 

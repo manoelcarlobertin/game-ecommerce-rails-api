@@ -32,10 +32,17 @@ module Admin::V1
     #   @category = Category.find(params[:id])
     #   render json: @category.as_json(only: %i(id name))
     # end
+<<<<<<< HEAD
 
     def update
       if @category.update(category_params)
         render json: @category.as_json(only: %i[id name]), status: :ok
+=======
+    
+    def update
+      if @category.update(category_params)
+        render json: @category.as_json(only: %i(id name)), status: :ok
+>>>>>>> a5b17aa32084fb196cab1be7672f746d00037333
       else
         render json: { errors: category.errors.full_messages }, status: :unprocessable_entity
       end
@@ -59,10 +66,13 @@ module Admin::V1
       @category = Category.find_by(id: params[:id])
     end
 
+<<<<<<< HEAD
     def searchable_params
       params.permit({ search: :name }, { order: {} }, :page, :length)
     end
 
+=======
+>>>>>>> a5b17aa32084fb196cab1be7672f746d00037333
     def category_params
       params.require(:category).permit(:id, :name)
     end
