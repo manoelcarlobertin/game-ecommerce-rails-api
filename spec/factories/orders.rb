@@ -13,5 +13,13 @@ FactoryBot.define do
         order.total_amout = order.subtotal * (1 - coupon.discount_value / 100)
       end
     end
+
+    trait :with_items do
+      after :build do |order|
+        items = create_list(:line_items, 5, order: order)
+        order.subtotal = items.sum(:payed_price)
+        order.total_amount = order.subtotal
+      end
+    end
   end
 end
