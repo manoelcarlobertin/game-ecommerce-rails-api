@@ -7,5 +7,10 @@ class Coupon < ApplicationRecord
   # simples aplicar uma validação customizada criada por nós =D
   validates :due_date, presence: true, future_date: true
 
+  def validate_use!
+    raise InvalidUse, 'Coupon is expired' if expiration_date < Time.current
+    raise InvalidUse, 'Coupon is inactive' if status != 'active'
+  end
+
   enum status: { active:1,  inactive: 2 }
 end
