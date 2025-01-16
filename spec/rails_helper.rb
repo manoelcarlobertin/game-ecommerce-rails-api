@@ -26,3 +26,10 @@ RSpec.configure do |config|
 
   config.alias_it_behaves_like_to :it_has_behavior_of, 'has behavior of'
 end
+
+Shoulda::Matchers.configure do |config|
+  config.integrate do |with|
+    with.test_framework :rspec
+    with.library :rails
+  end
+end

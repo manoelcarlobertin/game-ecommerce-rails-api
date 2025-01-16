@@ -41,7 +41,7 @@ module Storefront
 
     def filter_by_search
       return @records.all unless @params.has_key?(:search)
-      filtered_records = @records.like(:name, @params[:search])
+      filtered_records = @records.where("LOWER(name) LIKE ?", "%#{@params[:search].downcase}%")
       filtered_records = filtered_records.or(@records.like(:description, @params[:search]))
       filtered_records.or @records.merge(Game.like(:developer, @params[:search]))
     end
