@@ -1,8 +1,9 @@
 FactoryBot.define do
-  factory :line_items do
+  factory :line_item do
+    payed_price { 100.00 }
     quantity { 1 }
-    payed_price { "9.99" }
-    order { nil }
-    product { nil }
+    product { association :product }
+    order { association :order }
   end
 end
+
