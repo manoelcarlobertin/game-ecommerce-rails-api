@@ -15,7 +15,8 @@ gem 'devise', '~> 4.9.0'
 gem 'devise_token_auth'
 # CORS
 gem 'rack-cors', '~> 1.1.1'
-
+# Validation
+gem 'cpf_cnpj', '~> 0.5.0'
 # Rendering
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 2.10.1'
