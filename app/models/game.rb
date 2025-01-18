@@ -1,5 +1,6 @@
 class Game < ApplicationRecord
-  # include LikeSearchable
+  include Searchable
+
   has_many :licenses, dependent: :destroy
   belongs_to :system_requirement
   has_one :product, as: :productable
@@ -9,6 +10,10 @@ class Game < ApplicationRecord
   validates :developer, presence: true
 
   enum mode: { pvp: 1, pve: 2, both: 3 }
+
+    def self.search(query)
+      where("name LIKE ?", "%#{query}%")
+    end
 end
 
 

@@ -21,63 +21,24 @@ module Storefront
 
     private
 
-class Storefront::CheckoutProcessorService
-  def calculate_total_amount
-    subtotal = calculate_subtotal
-    discount = calculate_coupon_discount(subtotal)
-    @order.total_amount = subtotal - discount
-  end
-
-  private
-
-  def calculate_subtotal
-    @order.line_items.sum { |item| item.payed_price * item.quantity }
-  end
-
-  def calculate_coupon_discount(subtotal)
-    coupon = Coupon.find_by(code: @params[:coupon_code])
-    return 0 unless coupon&.active?
-
-    case coupon.discount_type
-    when 'percentage'
-      subtotal * (coupon.discount_value / 100.0)
-    when 'fixed'
-      [coupon.discount_value, subtotal].min
-    else
-      0
-    end
-  end
-end
-
-
-    def coupon_discount(subtotal)
-      coupon = Coupon.find_by(code: @params[:coupon_code])
-      return 0 unless coupon&.active?
-
-      coupon.apply_discount(subtotal)
-    end
-
     def check_presence_of_items_param
-      unless @params.has_key?(:items)
-        @errors[:items] = I18n.t('storefront/checkout_processor_service.errors.items.presence')
-      end
+      # unless @params.has_key?(:items)
+      #   @errors[:items] = I18n.t('storefront/checkout_processor_service.errors.items.presence')
+      # end
     end
 
     def check_emptyness_of_items_param
-      if @params[:items].blank?
+      if @params[:items].empty?
         @errors[:items] = I18n.t('storefront/checkout_processor_service.errors.items.empty')
       end
     end
 
     def validate_coupon
-      coupon = Coupon.find_by(code: @params[:coupon_code])
-      return unless coupon
-
-      begin
-        coupon.validate_use!
-      rescue Coupon::InvalidUse => e
-        @errors[:coupon] = e.message # Adiciona o erro ao hash
-      end
+      return unless @params.has_key?(:coupon_id)
+      @coupon = Coupon.find(@params[:coupon_id])
+      @coupon.validate_use!
+    rescue Coupon::InvalidUse, ActiveRecord::RecordNotFound
+      @errors[:coupon] = I18n.t('storefront/checkout_processor_service.errors.coupon.invalid') 
     end
 
     def do_checkout
@@ -118,5 +79,40 @@ end
       @order.save!
       line_items.each(&:save!)
     end
+
+    def calculate_total_amount
+      subtotal = calculate_subtotal
+      discount = calculate_coupon_discount(subtotal)
+      @order.total_amount = subtotal - discount
+    end
+
+    def calculate_subtotal
+      @order.line_items.sum { |item| item.payed_price * item.quantity }
+    end
+
+    def calculate_coupon_discount(subtotal)
+      coupon = Coupon.find_by(code: @params[:coupon_code])
+      return 0 unless coupon&.active?
+
+      case coupon.discount_type
+      when 'percentage'
+        subtotal * (coupon.discount_value / 100.0)
+      when 'fixed'
+        [coupon.discount_value, subtotal].min
+      else
+        0
+      end
+    end
   end
 end
+
+
+#     def coupon_discount(subtotal)
+#       coupon = Coupon.find_by(code: @params[:coupon_code])
+#       return 0 unless coupon&.active?
+
+#       coupon.apply_discount(subtotal)
+#     end
+
+#   end
+# end

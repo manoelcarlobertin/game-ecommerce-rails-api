@@ -3,8 +3,11 @@ require 'rspec/rails'
 ENV['RAILS_ENV'] ||= 'test'
 Rails.application.config.active_support.deprecation = :silence
 
-Dir[Rails.root.join('spec', 'support', '**', '*.rb')].each { |f| require f }
+# Dir[Rails.root.join('spec', 'support', '**', '*.rb')].each { |f| require f }
 Dir[Rails.root.join('spec', 'shared_examples', '**', '*.rb')].each { |f| require f }
+
+# Carrega automaticamente arquivos em spec/support e subdiretórios
+Dir[Rails.root.join('spec', 'support', '**', '*.rb')].sort.each { |f| require f }
 
 begin
   ActiveRecord::Migration.maintain_test_schema!

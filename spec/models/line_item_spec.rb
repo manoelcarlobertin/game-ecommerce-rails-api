@@ -15,7 +15,7 @@ RSpec.describe LineItem, type: :model do
   it "#total must be :payed_price multiplied by :quantity" do
     payed_price = 153.32
     quantity = 2
-    subject = build(:line_items, payed_price: payed_price, quantity: quantity)
+    subject = build(:line_item, payed_price: payed_price, quantity: quantity)
     expected_value = payed_price * quantity
   end
 

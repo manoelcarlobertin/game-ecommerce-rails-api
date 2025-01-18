@@ -5,7 +5,13 @@ describe Storefront::CheckoutProcessorService do
     let!(:user) { create(:user) }
 
     context "with invalid params" do
+      let(:invalid_coupon) { create(:coupon, status: 2) }
       let(:params) { { installments: 1, user_id: user.id, items: []} }
+
+      let(:params_with_invalid_coupon) do
+        { installments: 1, user_id: user.id, items: [{ quantity: 1, payed_price: 100, product: create(:product)
+        }], coupon_id: 1 }
+      end
 
       it "set error when it order params not present" do
         service = error_proof_call(params)
@@ -30,14 +36,14 @@ describe Storefront::CheckoutProcessorService do
         expect(service.errors).to have_key(:quantity)
       end
 
-      it 'set error when Coupon is invalid' do
-        invalid_coupon = instance_double(Coupon)
+      it "set error when Coupon is invalid" do
         allow(Coupon).to receive(:find_by).and_return(invalid_coupon)
         allow(invalid_coupon).to receive(:validate_use!).and_raise(Coupon::InvalidUse, "Coupon is expired")
 
-        service = described_class.new(params)
+        service = described_class.new(params_with_invalid_coupon)
         service.call
 
+        expect(service.errors).to include("Coupon is invalid")
         expect(service.errors).to have_key(:coupon)
         expect(service.errors[:coupon]).to eq("Coupon is expired")
       end

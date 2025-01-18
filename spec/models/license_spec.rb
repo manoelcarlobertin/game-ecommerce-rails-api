@@ -1,7 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe License, type: :model do
-  subject { build(:license) }
+  let!(:license) { License.create!(key: "TEST123", platform: :steam, status: :available, game: Game.create!(name: "Test Game", mode: :pvp, release_date: "2025-01-01", developer: "Test Dev", system_requirement: SystemRequirement.create!(name: "Test System", operational_system: "OS", storage: 100, processor: "i5", memory: 16, video_board: "GTX 1050"))) }
+  #subject { build(:license) } tenho que rever aqui.
 
   it { is_expected.to belong_to :game }
 
@@ -12,6 +13,6 @@ RSpec.describe License, type: :model do
   it { is_expected.to validate_presence_of(:status) }
   it { is_expected.to define_enum_for(:status).with_values({ available: 1, in_use: 2, inactive: 3 }) }
 
-  #it_behaves_like "paginatable concern", :license
-  #it_has_behavior_of "like searchable concern", :license, :key
+  it_behaves_like "paginatable concern", :license
+  it_behaves_like "like searchable concern", :license, :key
 end

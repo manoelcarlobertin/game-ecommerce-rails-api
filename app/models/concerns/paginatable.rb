@@ -10,8 +10,7 @@ module Paginatable
       page = page.present? && page.to_i.positive? ? page.to_i : DEFAULT_PAGE
       length = length.present? && length.to_i.positive? ? length.to_i : MAX_PER_PAGE
       starts_at = (page - 1) * length
-      limit(length).offset(starts_at) #limit restringe o nº de registros;
-      # offset define o índice inicial dos registros a serem recuperados.
+      order(:id).limit(length).offset(starts_at) # Ordenar por ID para consistência
     end
   end
 end

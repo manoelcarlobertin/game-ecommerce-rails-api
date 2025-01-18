@@ -1,7 +1,7 @@
 class Coupon < ApplicationRecord
   class InvalidUse < StandardError; end
-  # include NameSearchable
-  # include Paginatable
+  include NameSearchable
+  include Paginatable
   validates :code, presence: true, uniqueness: { case_sensitive: false }
   validates :status, presence: true
   validates :discount_value, presence: true, numericality: { greater_than: 0 }
@@ -24,5 +24,5 @@ class Coupon < ApplicationRecord
     raise InvalidUse, 'Coupon is inactive' if status != 'active'
   end
 
-  enum status: { active:1,  inactive: 2 }
+  enum status: { active: 1,  inactive: 2 }
 end

@@ -1,7 +1,6 @@
 require_relative 'boot'
 
 require "rails"
-# Pick the frameworks you want:
 require "active_model/railtie"
 require "active_job/railtie"
 require "active_record/railtie"
@@ -12,35 +11,20 @@ require "action_mailbox/engine"
 require "action_text/engine"
 require "action_view/railtie"
 require "action_cable/engine"
-# require "sprockets/railtie"
-# require "rails/test_unit/railtie"
 
-# Require the gems listed in Gemfile, including any gems
-# you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
 
 module EcommerceApi
   class Application < Rails::Application
     config.load_defaults 6.0
-
-    # I18n config
-    config.i18n.default_locale = :'pt-BR'
-    # Initialize configuration defaults for originally generated Rails version.
     # I18n config
     config.i18n.load_path += Dir[Rails.root.join('config/locales/**/*.{rb,yml}')]
     config.i18n.default_locale = :'pt-BR'
     Warning[:deprecated] = false
 
-    # Settings in config/environments/* take precedence over those specified here.
-    # Application configuration can go into files in config/initializers
-    # -- all .rb files in that directory are automatically loaded after loading
-    # the framework and any gems in your application.
-
-    # Only loads a smaller set of middleware suitable for API only apps.
-
     # configurar o Rails para carregar o conteúdo deste diretório, já que ele não carrega por padrão.
     config.api_only = true
-
+    config.autoload_paths += %W(#{config.root}/app/services)
     config.autoload_paths += %W["#{config.root}/app/validators/"]
   end
 end
