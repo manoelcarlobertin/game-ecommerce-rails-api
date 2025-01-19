@@ -21,6 +21,8 @@ gem 'cpf_cnpj', '~> 0.5.0'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 2.10.1'
 
+gem 'csv', require: 'csv'
+
 # HTTP Request
 gem 'httparty', '~> 0.18.1'
 # ter mais controle sobre atributos e assiciações a serem incluídas

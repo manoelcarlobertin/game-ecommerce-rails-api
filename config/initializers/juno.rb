@@ -1,2 +1,2 @@
-# config/initializers/juno.rb ou algo similar
-JUNO_AUTH_URL = 'https://api.juno.com.br/authentication'
+# config/initializers/juno.rb
+JUNO_RESOURCE_URL ||= "https://api.juno.com"
