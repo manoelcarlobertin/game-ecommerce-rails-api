@@ -1,4 +1,5 @@
 require_relative 'boot'
+require_relative '../lib/constants/juno'
 
 require "rails"
 require "active_model/railtie"
@@ -26,5 +27,7 @@ module EcommerceApi
     config.api_only = true
     config.autoload_paths += %W(#{config.root}/app/services)
     config.autoload_paths += %W["#{config.root}/app/validators/"]
+
+    config.autoload_paths << Rails.root.join('lib')
   end
 end
