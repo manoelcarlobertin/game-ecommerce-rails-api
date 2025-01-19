@@ -6,6 +6,7 @@ class Order < ApplicationRecord
   attribute :document
 
   has_many :line_items, dependent: :destroy
+  has_many :juno_charges
   belongs_to :user
   belongs_to :coupon, optional: true
 
