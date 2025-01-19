@@ -5,6 +5,8 @@ Rails.application.config.active_support.deprecation = :silence
 
 # Dir[Rails.root.join('spec', 'support', '**', '*.rb')].each { |f| require f }
 Dir[Rails.root.join('spec', 'shared_examples', '**', '*.rb')].each { |f| require f }
+# rails_helper.rb
+Dir[Rails.root.join('spec', 'support', '**', '*.rb')].each { |f| require f }
 
 # Carrega automaticamente arquivos em spec/support e subdiretórios
 Dir[Rails.root.join('spec', 'support', '**', '*.rb')].sort.each { |f| require f }
@@ -26,6 +28,8 @@ RSpec.configure do |config|
 
   # Filter lines from Rails gems in backtraces.
   config.filter_rails_from_backtrace!
+
+  config.include FactoryBot::Syntax::Methods
 
   config.alias_it_behaves_like_to :it_has_behavior_of, 'has behavior of'
 end

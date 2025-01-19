@@ -20,6 +20,9 @@ gem 'cpf_cnpj', '~> 0.5.0'
 # Rendering
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 2.10.1'
+
+# HTTP Request
+gem 'httparty', '~> 0.18.1'
 # ter mais controle sobre atributos e assiciações a serem incluídas
 gem 'active_model_serializers'
 
@@ -45,10 +48,11 @@ gem 'bootsnap', '>= 1.4.2', require: false
 
 group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
-  gem 'factory_bot_rails'
   gem 'faker'
   gem 'rspec-rails', '~> 4.0.1'
   gem 'shoulda-matchers', '~> 5.0'
+  gem 'database_cleaner'
+  gem 'factory_bot_rails'
 end
 
 group :development do

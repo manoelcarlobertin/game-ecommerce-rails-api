@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2025_01_17_045939) do
+ActiveRecord::Schema.define(version: 2025_01_19_015042) do
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -60,10 +60,31 @@ ActiveRecord::Schema.define(version: 2025_01_17_045939) do
     t.index ["system_requirement_id"], name: "index_games_on_system_requirement_id"
   end
 
+  create_table "juno_charges", force: :cascade do |t|
+    t.string "charge_id"
+    t.decimal "amount", precision: 10, scale: 2
+    t.string "status"
+    t.integer "order_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["order_id"], name: "index_juno_charges_on_order_id"
+  end
+
+  create_table "juno_credit_card_payments", force: :cascade do |t|
+    t.string "key"
+    t.datetime "release_date"
+    t.string "status"
+    t.string "reason"
+    t.integer "charge_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["charge_id"], name: "index_juno_credit_card_payments_on_charge_id"
+  end
+
   create_table "licenses", force: :cascade do |t|
     t.string "key"
-    t.integer "platform", default: 0, null: false
-    t.integer "status", default: 0, null: false
+    t.integer "platform"
+    t.integer "status"
     t.integer "game_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -79,17 +100,6 @@ ActiveRecord::Schema.define(version: 2025_01_17_045939) do
     t.datetime "updated_at", precision: 6, null: false
     t.index ["order_id"], name: "index_line_item_on_order_id"
     t.index ["product_id"], name: "index_line_item_on_product_id"
-  end
-
-  create_table "line_items", force: :cascade do |t|
-    t.integer "quantity"
-    t.decimal "payed_price", precision: 10, scale: 2
-    t.integer "order_id", null: false
-    t.integer "product_id", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["order_id"], name: "index_line_items_on_order_id"
-    t.index ["product_id"], name: "index_line_items_on_product_id"
   end
 
   create_table "orders", force: :cascade do |t|
@@ -174,11 +184,11 @@ ActiveRecord::Schema.define(version: 2025_01_17_045939) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "games", "system_requirements"
+  add_foreign_key "juno_charges", "orders"
+  add_foreign_key "juno_credit_card_payments", "juno_charges", column: "charge_id"
   add_foreign_key "licenses", "games"
   add_foreign_key "line_item", "orders"
   add_foreign_key "line_item", "products"
-  add_foreign_key "line_items", "orders"
-  add_foreign_key "line_items", "products"
   add_foreign_key "orders", "coupons"
   add_foreign_key "orders", "users"
   add_foreign_key "product_categories", "categories"
